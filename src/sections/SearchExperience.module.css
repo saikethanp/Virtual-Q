@@ -1,0 +1,157 @@
+.searchSection {
+  padding: 120px 0;
+  background-color: var(--color-white);
+  text-align: center;
+}
+
+.container {
+  max-width: 800px;
+}
+
+.header {
+  margin-bottom: 60px;
+}
+
+.headline {
+  font-size: 3rem;
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  margin-bottom: 24px;
+}
+
+.desc {
+  font-size: 1.25rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.searchWrapper {
+  background: var(--color-warm-white);
+  border-radius: 24px;
+  padding: 40px;
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--border-subtle);
+}
+
+.searchInputContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: var(--color-white);
+  border-radius: 16px;
+  border: 2px solid var(--border-light);
+  padding: 8px 24px;
+  transition: all var(--transition-fast);
+}
+
+.searchInputContainer:focus-within {
+  border-color: var(--color-black);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.searchIcon {
+  color: var(--text-tertiary);
+  margin-right: 16px;
+}
+
+.searchInput {
+  flex: 1;
+  border: none;
+  background: transparent;
+  padding: 16px 0;
+  font-size: 1.25rem;
+  font-family: inherit;
+  color: var(--text-primary);
+  outline: none;
+}
+
+.searchInput::placeholder {
+  color: var(--text-tertiary);
+}
+
+.suggestionsArea {
+  margin-top: 24px;
+  min-height: 300px;
+}
+
+.suggestionsList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  text-align: left;
+}
+
+.suggestionItem {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  background: var(--color-white);
+  padding: 20px;
+  border-radius: 16px;
+  border: 1px solid var(--border-subtle);
+  transition: all var(--transition-fast);
+  cursor: pointer;
+}
+
+.suggestionItem:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+  border-color: var(--border-light);
+}
+
+.itemImageHolder {
+  width: 64px;
+  height: 64px;
+  border-radius: 12px;
+  background-color: var(--color-soft-gray);
+  flex-shrink: 0;
+}
+
+.itemDetails {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.itemName {
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+.itemDesc {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+.itemPrice {
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: var(--color-black);
+}
+
+.noResults {
+  color: var(--text-tertiary);
+  font-size: 1.125rem;
+  padding: 40px 0;
+}
+
+@media (max-width: 768px) {
+  .searchWrapper {
+    padding: 24px;
+  }
+  
+  .searchInput {
+    font-size: 1rem;
+  }
+  
+  .suggestionItem {
+    padding: 16px;
+    gap: 16px;
+  }
+  
+  .itemImageHolder {
+    width: 48px;
+    height: 48px;
+  }
+}

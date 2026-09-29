@@ -1,0 +1,45 @@
+.timelineContainer {
+  position: relative;
+  width: 100%;
+  padding: 40px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: visible;
+}
+
+.timeline {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  position: relative;
+  z-index: 2;
+}
+
+.tokenWrapper {
+  position: relative;
+  /* Allow tokens to stack nicely */
+}
+
+.timelineLine {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg, 
+    rgba(0,0,0,0) 0%, 
+    rgba(0,0,0,0.1) 20%, 
+    rgba(0,0,0,0.1) 80%, 
+    rgba(0,0,0,0) 100%
+  );
+  transform: translateY(-50%);
+  z-index: 0;
+}
+
+@media (max-width: 768px) {
+  .timeline {
+    gap: 12px;
+  }
+}

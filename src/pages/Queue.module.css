@@ -1,0 +1,188 @@
+.page {
+  padding: 60px 0 120px;
+  background-color: var(--bg-main);
+  min-height: calc(100vh - 80px);
+}
+
+.container {
+  max-width: 800px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 40px;
+}
+
+.title {
+  font-size: 2.5rem;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.subtitle {
+  font-size: 1rem;
+  color: var(--text-secondary);
+}
+
+.simulateBtn {
+  background: var(--border-light);
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: background var(--transition-fast);
+}
+
+.simulateBtn:hover {
+  background: rgba(0, 0, 0, 0.15);
+}
+
+.liveDisplay {
+  background: var(--color-white);
+  border-radius: 24px;
+  padding: 60px;
+  box-shadow: var(--shadow-lg);
+  display: flex;
+  flex-direction: column;
+  gap: 60px;
+}
+
+.mainTokens {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 60px;
+}
+
+.tokenInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: var(--text-tertiary);
+}
+
+.labelAccent {
+  font-size: 0.875rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--color-accent-green);
+}
+
+.value {
+  font-size: 3.5rem;
+  font-weight: 500;
+  line-height: 1;
+}
+
+.valueLarge {
+  font-size: 5rem;
+  font-weight: 500;
+  line-height: 1;
+}
+
+.tokenDivider {
+  width: 1px;
+  height: 80px;
+  background: var(--border-subtle);
+}
+
+.timelineSection {
+  background: var(--bg-main);
+  border-radius: 16px;
+  padding: 20px 0;
+  border: 1px solid var(--border-subtle);
+  overflow: hidden;
+}
+
+.metricsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+  padding-top: 40px;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.metric {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.metricLabel {
+  font-size: 0.75rem;
+  color: var(--text-tertiary);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+
+.metricValue {
+  font-size: 2rem;
+  font-weight: 500;
+}
+
+.metricValueSmall {
+  font-size: 1.25rem;
+  font-weight: 500;
+}
+
+.statusGroup {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--color-accent-green);
+}
+
+.statusDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--color-accent-green);
+  box-shadow: 0 0 0 4px rgba(62, 115, 88, 0.1);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(62, 115, 88, 0.2);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(62, 115, 88, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(62, 115, 88, 0);
+  }
+}
+
+@media (max-width: 768px) {
+  .liveDisplay {
+    padding: 32px 20px;
+    gap: 40px;
+  }
+  
+  .mainTokens {
+    gap: 32px;
+  }
+  
+  .value {
+    font-size: 2.5rem;
+  }
+  
+  .valueLarge {
+    font-size: 3.5rem;
+  }
+  
+  .metricsGrid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+    padding-top: 24px;
+  }
+}
