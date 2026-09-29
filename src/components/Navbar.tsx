@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import classes from './Navbar.module.css';
 
 const Navbar = () => {
@@ -6,8 +7,9 @@ const Navbar = () => {
     <nav className={classes.navbar}>
       <div className={`container ${classes.container}`}>
         <div className={classes.logo}>
-          <Link to="/">
-            <img src="/logo.png" alt="Virtual-Q Logo" className={classes.logoImage} />
+          <Link to="/" className={classes.logoLink}>
+            <motion.img layoutId="logo-img" src="/logo.png" alt="Virtual-Q Logo" className={classes.logoImage} />
+            <motion.span layoutId="logo-text" className={classes.logoText}>Virtual-Q</motion.span>
           </Link>
         </div>
 

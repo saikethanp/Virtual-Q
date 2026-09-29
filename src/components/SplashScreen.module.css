@@ -1,0 +1,42 @@
+.splashContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.logoWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.logoImage {
+  height: 96px;
+  object-fit: contain;
+}
+
+.logoText {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.5rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--color-black);
+}
+
+@media (max-width: 768px) {
+  .logoImage {
+    height: 72px;
+  }
+  
+  .logoText {
+    font-size: 2rem;
+  }
+}
