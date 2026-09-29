@@ -494,7 +494,7 @@ const BusinessDashboard = () => {
       const { data: { session } } = await supabase.auth.getSession();
       if (!session) throw new Error("No session found");
 
-      const { data, error } = await supabase.functions.invoke('delete-account', {
+      const { error } = await supabase.functions.invoke('delete-account', {
         body: { businessId }
       });
 
