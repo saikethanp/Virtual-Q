@@ -234,8 +234,8 @@ const BusinessDashboard = () => {
     // 1. Mark currently serving as complete (if any)
     const currentlyServing = queue.find(q => q.status === 'Serving');
     if (currentlyServing) {
-      await supabase.from('queue_entries').update({ status: 'Completed' }).eq('id', currentlyServing.dbId);
-      if (currentlyServing.orderId) {
+      const { error: serveError } = await supabase.from('queue_entries').update({ status: 'Completed' }).eq('id', currentlyServing.dbId);
+      if (!serveError && currentlyServing.orderId) {
         await supabase.from('orders').update({ status: 'completed' }).eq('id', currentlyServing.orderId);
       }
     }
@@ -243,8 +243,34 @@ const BusinessDashboard = () => {
     // 2. Mark target as serving
     const target = queue.find(q => q.id === queueNumber);
     if (target) {
-      await supabase.from('queue_entries').update({ status: 'Serving' }).eq('id', target.dbId);
+      const { error } = await supabase.from('queue_entries').update({ status: 'Serving' }).eq('id', target.dbId);
+      if (error) {
+        console.error("Failed to update queue entry:", error);
+        return;
+      }
     }
+    
+    // 3. Immediately update local state
+    let aheadCount = 0;
+    const updatedQueue = queue.map(q => {
+      if (currentlyServing && q.id === currentlyServing.id) {
+        return { ...q, status: 'Completed' as const };
+      }
+      if (q.id === queueNumber) {
+        return { ...q, status: 'Serving' as const };
+      }
+      return q;
+    }).filter(q => q.status !== 'Completed').map(q => {
+      const isWaiting = q.status === 'Waiting';
+      const currentAhead = isWaiting ? aheadCount : 0;
+      if (isWaiting) aheadCount++;
+      return {
+        ...q,
+        ahead: currentAhead,
+        waitEst: isWaiting ? `~${currentAhead * 5} min` : (q.status === 'Serving' ? 'Now serving' : q.waitEst)
+      };
+    });
+    setQueue(updatedQueue);
     
     fetchDashboardData(businessId);
   };
@@ -252,10 +278,34 @@ const BusinessDashboard = () => {
   const handleComplete = async (queueNumber: string) => {
     const target = queue.find(q => q.id === queueNumber);
     if (target) {
-      await supabase.from('queue_entries').update({ status: 'Completed' }).eq('id', target.dbId);
+      const { error } = await supabase.from('queue_entries').update({ status: 'Completed' }).eq('id', target.dbId);
+      if (error) {
+        console.error("Failed to complete queue entry:", error);
+        return;
+      }
+      
       if (target.orderId) {
         await supabase.from('orders').update({ status: 'completed' }).eq('id', target.orderId);
       }
+      
+      let aheadCount = 0;
+      const updatedQueue = queue.map(q => {
+        if (q.id === queueNumber) {
+          return { ...q, status: 'Completed' as const };
+        }
+        return q;
+      }).filter(q => q.status !== 'Completed').map(q => {
+        const isWaiting = q.status === 'Waiting';
+        const currentAhead = isWaiting ? aheadCount : 0;
+        if (isWaiting) aheadCount++;
+        return {
+          ...q,
+          ahead: currentAhead,
+          waitEst: isWaiting ? `~${currentAhead * 5} min` : (q.status === 'Serving' ? 'Now serving' : q.waitEst)
+        };
+      });
+      setQueue(updatedQueue);
+      
       fetchDashboardData(businessId);
     }
   };
@@ -264,7 +314,30 @@ const BusinessDashboard = () => {
     const target = queue.find(q => q.id === queueNumber);
     if (target) {
       // Mark as completed or skipped
-      await supabase.from('queue_entries').update({ status: 'Completed' }).eq('id', target.dbId);
+      const { error } = await supabase.from('queue_entries').update({ status: 'Completed' }).eq('id', target.dbId);
+      if (error) {
+        console.error("Failed to skip queue entry:", error);
+        return;
+      }
+      
+      let aheadCount = 0;
+      const updatedQueue = queue.map(q => {
+        if (q.id === queueNumber) {
+          return { ...q, status: 'Completed' as const };
+        }
+        return q;
+      }).filter(q => q.status !== 'Completed').map(q => {
+        const isWaiting = q.status === 'Waiting';
+        const currentAhead = isWaiting ? aheadCount : 0;
+        if (isWaiting) aheadCount++;
+        return {
+          ...q,
+          ahead: currentAhead,
+          waitEst: isWaiting ? `~${currentAhead * 5} min` : (q.status === 'Serving' ? 'Now serving' : q.waitEst)
+        };
+      });
+      setQueue(updatedQueue);
+      
       fetchDashboardData(businessId);
     }
   };
