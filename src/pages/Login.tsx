@@ -12,7 +12,17 @@ const Login = () => {
   useEffect(() => {
     supabase.auth.getSession().then(async ({ data: { session } }) => {
       if (session) {
-        navigate('/business/dashboard');
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('role')
+          .eq('user_id', session.user.id)
+          .single();
+          
+        if (profile?.role === 'business_owner') {
+          navigate('/business/dashboard');
+        } else {
+          navigate('/discover');
+        }
       }
     });
   }, [navigate]);
@@ -29,11 +39,35 @@ const Login = () => {
 
       if (authError) throw authError;
 
-      if (data.session) {
-        navigate('/business/dashboard');
+      if (data.session && data.user) {
+        const { data: profileData, error: profileError } = await supabase
+          .from('profiles')
+          .select('role')
+          .eq('user_id', data.user.id)
+          .single();
+
+        if (profileError || !profileData) {
+          throw new Error('Profile not found.');
+        }
+
+        if (profileData.role === 'business_owner') {
+          const { data: businessData, error: businessError } = await supabase
+            .from('businesses')
+            .select('id')
+            .eq('owner_id', data.user.id)
+            .single();
+
+          if (businessError || !businessData) {
+            throw new Error('Business record not found for this owner.');
+          }
+          
+          navigate('/business/dashboard');
+        } else {
+          navigate('/discover');
+        }
       }
     } catch (err: any) {
-      setError('Incorrect email or password.');
+      setError(err.message === 'Invalid login credentials' ? 'Incorrect email or password.' : err.message || 'Login failed.');
     }
   };
 

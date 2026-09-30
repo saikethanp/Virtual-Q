@@ -184,17 +184,27 @@ const BusinessDashboard = () => {
       }
       
       // Fetch profile to get business info
-      const { data: profileData } = await supabase
+      const { data: profileData, error: profileError } = await supabase
         .from('profiles')
         .select('*')
         .eq('user_id', session.user.id)
         .single();
         
-      const { data: businessData } = await supabase
+      if (profileError || profileData?.role !== 'business_owner') {
+        navigate('/discover');
+        return;
+      }
+
+      const { data: businessData, error: businessError } = await supabase
         .from('businesses')
         .select('*')
         .eq('owner_id', session.user.id)
         .single();
+
+      if (businessError || !businessData) {
+        navigate('/discover');
+        return;
+      }
 
       if (profileData && businessData) {
         setBusinessId(businessData.id);
